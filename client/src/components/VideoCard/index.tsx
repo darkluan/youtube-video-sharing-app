@@ -1,11 +1,11 @@
 import { IMovie } from '../../interfaces/IMovies'
 
 const VideoCard = ({ movie }: { movie: IMovie }) => {
-  const { src, title, description, shareBy } = movie
+  const { id, title, description, shareBy } = movie
   return (
     <div className='card flex flex-col md:flex-row mb-4'>
       <iframe
-        src={src}
+        src={`https://www.youtube.com/embed/${id}`}
         title={title}
         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
         allowFullScreen

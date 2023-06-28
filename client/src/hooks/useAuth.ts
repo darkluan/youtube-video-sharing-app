@@ -10,8 +10,9 @@ const useAuth = () => {
 
   const login = async ({ email, password }: IUser) => {
     try {
-      setLocalStorage('auth', JSON.stringify({ email: email }))
-      setUser({ email: email })
+      const { data } = await axios.post('/login', { email, password })
+      setLocalStorage('auth', data)
+      setUser(data)
     } catch (error) {
       errorNotify({ message: 'Login error. Please check Email or Password' })
     }
