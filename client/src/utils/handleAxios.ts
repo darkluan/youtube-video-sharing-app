@@ -18,7 +18,7 @@ axios.interceptors.response.use(
   (err) => {
     if (err.response && err.response.data) {
       const {
-        response: { status, data }
+        response: { status }
       } = err
       const getTokenUrl = '/authentication/token'
       if (err.response.request.responseURL === `${configs.apiUrl}${getTokenUrl}` && status === 403) {

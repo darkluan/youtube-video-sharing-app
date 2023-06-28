@@ -3,7 +3,6 @@ import { IMovie } from '~/interfaces/IMovies'
 import { useEffect, useState } from 'react'
 import useYoutubeApi from '~/hooks/useYoutubeApi'
 import { errorNotify } from '~/utils/helper'
-import { api } from '~/configs'
 
 function Index() {
   const { getVideoList } = useYoutubeApi()
