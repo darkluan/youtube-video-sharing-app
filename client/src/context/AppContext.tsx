@@ -2,11 +2,10 @@ import axios from 'axios'
 import { ReactNode, createContext, useEffect, useState, useContext } from 'react'
 import config from '~/configs'
 import { getLocalStorage } from '~/utils/handleLocalStorage'
+import IUser from '~/interfaces/IUser'
 
 export type UserData = {
-  user: {
-    email?: string
-  }
+  user: IUser
   setUser: (c: object) => void
 }
 const AppContext = createContext<UserData>({ user: {}, setUser: () => {} })

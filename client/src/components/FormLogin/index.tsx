@@ -8,7 +8,9 @@ const Index = () => {
   const { logout, login } = useAuth()
 
   const handleLogin = () => {
-    setLocalStorage('auth', JSON.stringify({ email: '1111@gmail.com' }))
+    const params = { email: '1111@gmail.com', password: '1234' }
+    login(params)
+    setLocalStorage('auth', JSON.stringify(params.email))
     setUser({ email: '1111@gmail.com' })
   }
 

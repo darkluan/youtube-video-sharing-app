@@ -3,11 +3,12 @@ import { useAppContext } from '~/context/AppContext'
 import { removeLocalStorage, setLocalStorage } from '~/utils/handleLocalStorage'
 import axios from 'axios'
 import { errorNotify } from '~/utils/helper'
+import IUser from '~/interfaces/IUser'
 
 const useAuth = () => {
-  const { setUser, user } = useAppContext()
+  const { setUser } = useAppContext()
 
-  const login = async ({ params }: { params: any }) => {
+  const login = async (params: IUser) => {
     const { email, password } = params
     // call api
     try {
