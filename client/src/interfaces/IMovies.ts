@@ -1,11 +1,11 @@
-export interface Video {
+export interface IMovie {
   src: string
   title: string
   description: string
   shareBy: string
 }
 
-export const videosData: Video[] = [
+export const moviesData: IMovie[] = [
   {
     src: 'https://www.youtube.com/embed/52Zs3Jo7cy0',
     title: 'title 1',

@@ -1,7 +1,7 @@
-import { Video } from './videosData'
+import { IMovie } from '../../interfaces/IMovies'
 
-const VideoCard = ({ video }: { video: Video }) => {
-  const { src, title, description, shareBy } = video
+const VideoCard = ({ movie }: { movie: IMovie }) => {
+  const { src, title, description, shareBy } = movie
   return (
     <div className='card flex flex-col md:flex-row mb-4'>
       <iframe

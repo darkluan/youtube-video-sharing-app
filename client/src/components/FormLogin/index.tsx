@@ -1,40 +1,53 @@
-function index() {
-  return (
-    <form className='flex flex-col md:flex-row gap-2'>
-      <div className='flex justify-center md:justify-end gap-2'>
-        <div className='mb-6'>
-          <label htmlFor='email' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
-            Your email
-          </label>
-          <input
-            type='email'
-            id='email'
-            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:placeholder-gray-400 '
-            placeholder='example@gmail.com'
-            required
-          />
+import { useAppContext } from '~/context/AppContext'
+import useAuth from '~/hooks/useAuth'
+import { Link } from 'react-router-dom'
+import { setLocalStorage } from '~/utils/handleLocalStorage'
+
+const Index = () => {
+  const { user, setUser } = useAppContext()
+  const { logout, login } = useAuth()
+
+  const handleLogin = () => {
+    setLocalStorage('auth', JSON.stringify({ email: '1111@gmail.com' }))
+    setUser({ email: '1111@gmail.com' })
+  }
+
+  if (user.email) {
+    return (
+      <div className='flex justify-center items-center md:justify-end gap-2 my-5'>
+        <div>
+          <b>Welcome: {user.email}</b>
         </div>
-        <div className='mb-6'>
-          <label htmlFor='password' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
-            Your password
-          </label>
-          <input
-            type='password'
-            id='password'
-            placeholder='password'
-            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:placeholder-gray-400 '
-            required
-          />
+        <Link to='/share' className='btn'>
+          Share a movie
+        </Link>
+        <button onClick={logout} className='btn'>
+          Logout
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <form className='flex flex-col md:flex-row gap-2 my-5'>
+      <div className='flex justify-center md:justify-end gap-2'>
+        <div className=''>
+          <input type='email' id='email' className='input ' placeholder='example@gmail.com' required />
+        </div>
+        <div className=''>
+          <input type='password' id='password' placeholder='password' className='input ' required />
         </div>
       </div>
       <div className='flex justify-center md:justify-end gap-2'>
-        <button type='submit' className='btn mr-2'>
+        <button onClick={handleLogin} type='submit' className='btn '>
           Login
         </button>
-        <button className='btn'>Register</button>
+        <Link to={'/register'} className='btn '>
+          Register
+        </Link>
       </div>
     </form>
   )
 }
 
-export default index
+export default Index

@@ -1,12 +1,12 @@
 import VideoCard from '~/components/VideoCard'
-import { videosData } from '~/components/VideoCard/videosData'
+import { moviesData } from '~/interfaces/IMovies'
 
 function index() {
   return (
     <>
       <div className='my-12'>
-        {videosData.map((video, index) => (
-          <VideoCard key={index} video={video} />
+        {moviesData.map((movie, index) => (
+          <VideoCard key={index} movie={movie} />
         ))}
       </div>
     </>

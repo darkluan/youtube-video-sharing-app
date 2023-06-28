@@ -1,20 +1,18 @@
 import axios from 'axios'
-import { ReactNode, createContext, useEffect, useState } from 'react'
+import { ReactNode, createContext, useEffect, useState, useContext } from 'react'
 import config from '~/configs'
 import { getLocalStorage } from '~/utils/handleLocalStorage'
 
-interface CurrentUserContextType {
-  user: object | null
+export type UserData = {
+  user: {
+    email?: string
+  }
+  setUser: (c: object) => void
 }
-
-interface UserData {
-  email: string
-}
-
-const AppContext = createContext<CurrentUserContextType | null>(null)
+const AppContext = createContext<UserData>({ user: {}, setUser: () => {} })
 
 export const AppContextProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<UserData | null>(null)
+  const [user, setUser] = useState({})
   const [token, setToken] = useState()
 
   // Get token at the first time page loaded
@@ -29,8 +27,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   const handleFetchUserPayload = async () => {
     try {
       if (!token) return
-      const apiUrl = config.apiUrl
-      const { data } = await axios.get(`${apiUrl}/user`, {
+      const { data } = await axios.get(`${config.apiUrl}/userInfo`, {
         headers: {
           Authorization: `token ${token}`
         }
@@ -41,7 +38,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  return <AppContext.Provider value={{ user }}>{children}</AppContext.Provider>
+  return <AppContext.Provider value={{ user, setUser }}>{children}</AppContext.Provider>
 }
 
-export default AppContext
+export const useAppContext = () => useContext(AppContext)
