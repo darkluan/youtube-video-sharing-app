@@ -1,17 +1,25 @@
 import { useAppContext } from '~/context/AppContext'
 import useAuth from '~/hooks/useAuth'
 import { Link } from 'react-router-dom'
-import { setLocalStorage } from '~/utils/handleLocalStorage'
+import { ChangeEvent, useState } from 'react'
 
 const Index = () => {
-  const { user, setUser } = useAppContext()
+  const { user } = useAppContext()
   const { logout, login } = useAuth()
+  const [loginData, setLoginData] = useState({
+    email: '',
+    password: ''
+  })
 
-  const handleLogin = () => {
-    const params = { email: '1111@gmail.com', password: '1234' }
-    login(params)
-    setLocalStorage('auth', JSON.stringify(params.email))
-    setUser({ email: '1111@gmail.com' })
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!loginData.email || !loginData.password) return
+    await login(loginData)
+  }
+
+  const handleChangeInput = (e: ChangeEvent<{ name: string; value: string }>) => {
+    const { name, value } = e.target
+    setLoginData((prev) => ({ ...prev, [name]: value }))
   }
 
   if (user.email) {
@@ -31,17 +39,31 @@ const Index = () => {
   }
 
   return (
-    <form className='flex flex-col md:flex-row gap-2 my-5'>
+    <form className='flex flex-col md:flex-row gap-2 my-5' onSubmit={handleLogin}>
       <div className='flex justify-center md:justify-end gap-2'>
         <div className=''>
-          <input type='email' id='email' className='input ' placeholder='example@gmail.com' required />
+          <input
+            onChange={handleChangeInput}
+            type='email'
+            name='email'
+            className='input '
+            placeholder='example@gmail.com'
+            required
+          />
         </div>
         <div className=''>
-          <input type='password' id='password' placeholder='password' className='input ' required />
+          <input
+            onChange={handleChangeInput}
+            type='password'
+            name='password'
+            placeholder='password'
+            className='input '
+            required
+          />
         </div>
       </div>
       <div className='flex justify-center md:justify-end gap-2'>
-        <button onClick={handleLogin} type='submit' className='btn '>
+        <button type='submit' className='btn '>
           Login
         </button>
         <Link to={'/register'} className='btn '>

@@ -1,14 +1,11 @@
 import axios from 'axios'
-
 import configs from '~/configs'
 import { getLocalStorage, removeLocalStorage } from '~/utils/handleLocalStorage'
 
 axios.interceptors.request.use(
-  async (config: any) => {
-    const auth = await getLocalStorage('auth')
-    config.headers = {
-      Authorization: `Bearer ${auth?.access_token}`
-    }
+  (config) => {
+    const auth = getLocalStorage('auth')
+    if (auth.access_token) config.headers.Authorization = `Bearer ${auth.access_token}`
     return config
   },
   (error) => {

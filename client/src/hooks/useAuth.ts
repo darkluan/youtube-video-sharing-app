@@ -1,29 +1,43 @@
 /* eslint-disable prettier/prettier */
 import { useAppContext } from '~/context/AppContext'
-import { removeLocalStorage, setLocalStorage } from '~/utils/handleLocalStorage'
+import { removeLocalStorage, setLocalStorage, getLocalStorage } from '~/utils/handleLocalStorage'
 import axios from 'axios'
-import { errorNotify } from '~/utils/helper'
 import IUser from '~/interfaces/IUser'
+import { errorNotify } from '~/utils/helper'
 
 const useAuth = () => {
   const { setUser } = useAppContext()
 
-  const login = async (params: IUser) => {
-    const { email, password } = params
-    // call api
+  const login = async ({ email, password }: IUser) => {
     try {
-      const { data } = await axios.post('/login', { email, password })
-      setLocalStorage('auth', data)
-      setUser(data)
+      setLocalStorage('auth', JSON.stringify({ email: email }))
+      setUser({ email: email })
     } catch (error) {
-      errorNotify({ message: 'Login error' })
+      errorNotify({ message: 'Login error. Please check Email or Password' })
     }
   }
   const logout = () => {
     removeLocalStorage('auth')
     setUser({})
   }
-  return { logout, login }
+
+  const register = async ({ email, password }: IUser) => {
+    try {
+      const { data } = await axios.post('/register', { email, password })
+      setLocalStorage('auth', data)
+      setUser(data)
+    } catch (error) {
+      errorNotify({ message: 'Register error.' })
+    }
+  }
+
+  const getCurrentUser = () => {
+    const userStr = getLocalStorage('auth')
+    if (userStr) return userStr
+    return null
+  }
+
+  return { logout, login, register, getCurrentUser }
 }
 
 export default useAuth
