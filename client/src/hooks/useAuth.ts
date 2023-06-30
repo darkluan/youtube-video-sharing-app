@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { useAppContext } from '~/context/AppContext'
-import { removeLocalStorage, setLocalStorage, getLocalStorage } from '~/utils/handleLocalStorage'
+import { removeLocalStorage, setLocalStorage } from '~/utils/handleLocalStorage'
 import axios from 'axios'
 import IUser from '~/interfaces/IUser'
 import { errorNotify, successNotify } from '~/utils/helper'

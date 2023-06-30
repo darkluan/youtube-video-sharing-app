@@ -1,11 +1,9 @@
 import axios from 'axios'
-import { url } from 'inspector'
 import configs, { api } from '~/configs'
 import { getLocalStorage, removeLocalStorage } from '~/utils/handleLocalStorage'
 
 axios.interceptors.request.use(
   (config) => {
-    console.log('first', config)
     const auth = getLocalStorage('auth')
     config.baseURL = configs.apiUrl
     if (auth.access_token && config.url?.includes(configs.apiUrl))

@@ -6,7 +6,7 @@ import { errorNotify } from '~/utils/helper'
 
 function Index() {
   const { getVideoList } = useYoutubeApi()
-  const [videos, setVideos] = useState<IMovie[] | undefined>([])
+  const [videos, setVideos] = useState<IMovie[]>([])
   const [offset, setOffset] = useState(1)
   const [isShowMore, setIsShowMore] = useState(true)
   const [total, setTotal] = useState(0)
@@ -35,7 +35,7 @@ function Index() {
       setOffset(() => offset + 1)
       const params = { limit, offset: limit * offset }
       const videosData = await getVideoList(params)
-      setVideos((pev) => [...pev, ...videosData])
+      setVideos((prev) => [...prev, ...videosData])
     } catch (error) {
       errorNotify({ message: 'Get list video Error' })
     }
