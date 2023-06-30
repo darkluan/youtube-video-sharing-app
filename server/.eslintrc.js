@@ -6,11 +6,11 @@ module.exports = {
     commonjs: true,
     es6: true,
     node: true,
-    mocha: true
+    mocha: true,
   },
   parserOptions: {
     sourceType: "module",
-    ecmaVersion: 8
+    ecmaVersion: 8,
   },
   rules: {
     "object-curly-spacing": [2, "always"],
@@ -19,8 +19,8 @@ module.exports = {
     semi: [1, "always"],
     "keyword-spacing": [2, { before: true, after: true }],
     "space-infix-ops": 2,
-    "spaced-comment": [2, "alwaays"],
+    "spaced-comment": [2, "always"],
     "arrow-spacing": 2,
-    "no-console": 0
-  }
+    "no-console": 0,
+  },
 };

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define(
+  let Model = sequelize.define(
     "user_shareds",
     {
       id: {
@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(256),
         allowNull: true,
       },
+      is_delete: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       underscored: true,
@@ -31,4 +35,12 @@ module.exports = (sequelize, DataTypes) => {
       },
     }
   );
+  Model.associate = (models) => {
+    Model.belongsTo(models.users, {
+      as: "user",
+      foreignKey: "user_id",
+      targetKey: "id",
+    });
+  };
+  return Model;
 };

@@ -58,6 +58,16 @@ module.exports = {
         return res.badRequest(res.__("USER_NOT_FOUND"), "USER_NOT_FOUND");
       }
 
+      let checkYoutubeId = await UserShare.findOne({
+        where: {
+          user_id: userId,
+          youtube_id: req.body.youtube_id,
+        },
+      });
+      if (checkYoutubeId) {
+        return res.badRequest(res.__("VIDEO_IS_EXIST"), "VIDEO_IS_EXIST");
+      }
+
       user = await UserShare.create({
         user_id: userId,
         youtube_id: req.body.youtube_id,
