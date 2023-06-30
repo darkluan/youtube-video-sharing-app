@@ -13,7 +13,7 @@ const VideoCard = ({ movie }: { movie: IMovie }) => {
   return (
     <div id={id} className='card flex flex-col md:flex-row mb-4'>
       <iframe
-        className='w-full md:w-6/12'
+        // className='w-full md:w-6/12'
         src={`https://www.youtube.com/embed/${idVideo}`}
         title={title}
         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'

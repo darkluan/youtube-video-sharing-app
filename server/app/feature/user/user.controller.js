@@ -2,8 +2,6 @@ const logger = require("app/lib/logger");
 const { createPasswordHash } = require("app/lib/crypto");
 const User = require("app/model/index").users;
 const UserShare = require("app/model/index").user_shareds;
-// const config = require("app/config");
-// const Sequelize = require("sequelize");
 
 module.exports = {
   getUserInfo: async (req, res, next) => {
@@ -68,11 +66,17 @@ module.exports = {
         return res.badRequest(res.__("VIDEO_IS_EXIST"), "VIDEO_IS_EXIST");
       }
 
-      user = await UserShare.create({
+      await UserShare.create({
         user_id: userId,
         youtube_id: req.body.youtube_id,
       });
-
+      // broadcast message
+      global.socketServer.emitMessage(
+        JSON.stringify({
+          sharedBy: user.email,
+          youtube_id: req.body.youtube_id,
+        })
+      );
       return res.ok(true);
     } catch (error) {
       logger.error("USER::REGISTER", error);

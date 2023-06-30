@@ -8,11 +8,13 @@ const morgan = require("morgan");
 const http = require("http");
 const database = require("app/lib/database");
 const logger = require("app/lib/logger");
+const SocketServer = require("app/service/socket");
+
 // const config = require("app/config");
 
 const app = express();
-app.use(morgan("dev"));
 
+app.use(morgan("dev"));
 database.init(async (err) => {
   if (err) {
     logger.error(`database start fail:`, err);
@@ -29,6 +31,8 @@ database.init(async (err) => {
   app.use(express.static("public"));
   app.use("/", require("app/index"));
   const server = http.createServer(app);
+
+  global.socketServer = new SocketServer(server);
   server.listen(process.env.PORT, function() {
     console.log(`server start successfully on port: ${process.env.PORT}`);
     var exec = require("child_process").exec;
@@ -40,7 +44,6 @@ database.init(async (err) => {
     });
   });
 });
-
 process.on("unhandledRejection", function(reason, p) {
   logger.error("unhandledRejection", reason, p);
 });

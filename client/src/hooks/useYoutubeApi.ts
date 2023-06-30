@@ -27,18 +27,9 @@ const useYoutubeApi = () => {
       items.map((item: any) => {
         sharedByKeys[item.youtube_id] = { sharedBy: item.user.email, sharedId: item.id }
       })
+      const response = await getGoogleApiVideos(videoIds)
 
-      const response = await axios.get(googleApiUrl, {
-        params: {
-          part: 'snippet',
-          id: videoIds.toString(),
-          fields: 'items',
-          key: configs.googleAPIKey
-        },
-        headers: { Authorization: null }
-      })
-
-      const videos = response.data.items
+      const videos = response?.data.items
       const fmVideos = formatVideos(videos, sharedByKeys)
       fmVideos.total = total
       setIsLoading(false)
@@ -60,11 +51,33 @@ const useYoutubeApi = () => {
     }))
   }
 
+  async function getGoogleApiVideos(videoIds: [] | string) {
+    try {
+      return await axios.get(googleApiUrl, {
+        params: {
+          part: 'snippet',
+          id: videoIds.toString(),
+          fields: 'items',
+          key: configs.googleAPIKey
+        },
+        headers: { Authorization: null }
+      })
+    } catch (error) {
+      errorNotify({ message: 'Error fetching video' })
+    }
+  }
+
   const submitShared = async (url: string) => {
     try {
       setIsLoading(true)
       if (url === '' || !url.includes('youtube.com')) return
       const youtubeId = youtubeParserId(url)
+      const checkVideo = await getGoogleApiVideos(youtubeId)
+      if (checkVideo?.data.items.length === 0) {
+        errorNotify({ message: 'Video not found' })
+        setIsLoading(false)
+        return
+      }
       await axios.post(api.shared, {
         youtube_id: youtubeId
       })
@@ -80,7 +93,7 @@ const useYoutubeApi = () => {
     }
   }
 
-  return { getVideoList, submitShared }
+  return { getVideoList, submitShared, getGoogleApiVideos }
 }
 
 export default useYoutubeApi
