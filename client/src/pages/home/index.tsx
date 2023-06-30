@@ -10,7 +10,7 @@ function Index() {
   const [offset, setOffset] = useState(1)
   const [isShowMore, setIsShowMore] = useState(true)
   const [total, setTotal] = useState(0)
-  const limit = 1
+  const limit = 10
 
   useEffect(() => {
     const fetchVideoList = async () => {
@@ -34,7 +34,6 @@ function Index() {
       if (total <= limit + offset) setIsShowMore(false)
       setOffset(() => offset + 1)
       const params = { limit, offset: limit * offset }
-      console.log(params)
       const videosData = await getVideoList(params)
       setVideos((pev) => [...pev, ...videosData])
     } catch (error) {
@@ -48,9 +47,11 @@ function Index() {
         {videos?.map((movie, index) => (
           <VideoCard key={index} movie={movie} />
         ))}
-        <button onClick={handleLoadmore} className={`btn ${isShowMore ? '' : 'hidden'}`}>
-          Load more
-        </button>
+        <div className='w-full text-center mt-8'>
+          <button onClick={handleLoadmore} className={`btn ${isShowMore ? '' : 'hidden'}`}>
+            Load more
+          </button>
+        </div>
       </div>
     </>
   )

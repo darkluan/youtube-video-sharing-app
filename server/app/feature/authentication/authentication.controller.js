@@ -107,8 +107,6 @@ async function _loginWithPassword(req, res, next) {
 
   if (!user) return res.badRequest(res.__("USER_NOT_FOUND"), "USER_NOT_FOUND");
 
-  console.log("user", user);
-
   const checkPassword = verifyPassword(password, user.password, user.salt);
 
   if (!checkPassword)
