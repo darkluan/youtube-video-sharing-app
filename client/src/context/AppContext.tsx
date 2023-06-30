@@ -43,11 +43,6 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
         console.log(error)
       }
     })
-
-    // Clean up the socket connection when the component unmounts
-    // return () => {
-    //   socket.disconnect()
-    // }
   }, [user])
 
   // Get token at the first time page loaded
@@ -67,7 +62,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
           Authorization: `token ${token}`
         }
       })
-      setUser(data.data)
+      if (data) setUser(data.data)
     } catch (e) {
       console.error(e)
     }
