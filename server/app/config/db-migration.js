@@ -8,7 +8,7 @@ module.exports = {
   dialect: "postgres",
   operatorsAliases: 0,
   dialectOptions: {
-    ssl: process.env.NODE_ENV === "development" ? false : true,
+    ssl: process.env.POSTGRES_SSL_MODE === "true",
   },
   define: {
     underscored: true,

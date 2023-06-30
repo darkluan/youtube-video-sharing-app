@@ -55,7 +55,7 @@ const config = {
           idle: 30000,
         },
         dialectOptions: {
-          ssl: process.env.NODE_ENV === "development" ? false : true,
+          ssl: process.env.POSTGRES_SSL_MODE === "true",
         },
       },
     },
