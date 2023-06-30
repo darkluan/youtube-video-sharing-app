@@ -1,11 +1,10 @@
 const logger = require("app/lib/logger");
 const UserShare = require("app/model/index").user_shareds;
 const User = require("app/model/index").users;
-const crypto = require("crypto");
 
 module.exports = {
   getYoutubeVideos: async (req, res, next) => {
-    let { offset, limit, order_by } = req.query;
+    let { offset, limit } = req.query;
     offset = parseInt(offset || 0);
     limit = parseInt(limit || 10);
     if (limit > 100) {

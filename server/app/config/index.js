@@ -1,8 +1,6 @@
-/*eslint no-process-env: "off"*/
+/* eslint no-process-env: "off"*/
 const pkg = require("../../package.json");
 require("dotenv").config();
-const fs = require("fs");
-const path = require("path");
 const logFolder = process.env.LOG_FOLDER || "./public/logs";
 
 const config = {

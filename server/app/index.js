@@ -78,7 +78,7 @@ router.use(function(req, res) {
   res.notFound("Not Found");
 });
 
-router.use((err, req, res, next) => {
+router.use((err, req, res) => {
   console.log(err);
   res.serverInternalError(err.message);
 });

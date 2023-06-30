@@ -4,7 +4,6 @@ const User = require("app/model/index").users;
 const UserShare = require("app/model/index").user_shareds;
 // const config = require("app/config");
 // const Sequelize = require("sequelize");
-const crypto = require("crypto");
 
 module.exports = {
   getUserInfo: async (req, res, next) => {

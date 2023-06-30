@@ -4,8 +4,6 @@ const config = require("app/config");
 const UserToken = require("app/model").user_tokens;
 const GrantType = require("app/model/value-object/token-grant-type");
 const { v4: uuidv4 } = require("uuid");
-const Sequelize = require("sequelize");
-const Op = Sequelize.Op;
 const jwt = require("jsonwebtoken");
 const joi = require("joi");
 const { refreshToken, login } = require("./validator");
@@ -55,7 +53,7 @@ module.exports = {
   },
 };
 
-async function _loginWithToken(req, res, next) {
+async function _loginWithToken(req, res) {
   let token = await UserToken.findOne({
     where: {
       refresh_token: req.body.refresh_token,
@@ -94,7 +92,7 @@ async function _loginWithToken(req, res, next) {
   return res.ok(tokenInfo);
 }
 
-async function _loginWithPassword(req, res, next) {
+async function _loginWithPassword(req, res) {
   const {
     body: { grant_type, email, password },
   } = req;
@@ -166,7 +164,7 @@ async function _generateToken({
   grant_type,
   refresh_token_expires_in,
   refresh_token,
-  access_token,
+  // access_token,
 }) {
   let expiredDate = new Date();
   expiredDate.setSeconds(expiredDate.getSeconds() + refresh_token_expires_in);

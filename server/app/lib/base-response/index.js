@@ -1,10 +1,9 @@
-
-function infBaseResponse(req, res, next) {
+function infBaseResponse() {
   return function infBaseResponse(req, res, next) {
     // TODO: include extended data like paging, rate limit, ...
     function success(data, statusCode) {
       res.status(statusCode).send({
-        data: data
+        data: data,
       });
     }
 
@@ -12,7 +11,7 @@ function infBaseResponse(req, res, next) {
       var resData = {
         message: message,
         error: "error",
-        code: code
+        code: code,
       };
       if (data) {
         resData = { ...resData, ...data };
@@ -23,7 +22,7 @@ function infBaseResponse(req, res, next) {
     res.success = success;
     res.failure = failure;
 
-    res.ok = data => {
+    res.ok = (data) => {
       success(data, 200);
     };
 
@@ -35,9 +34,13 @@ function infBaseResponse(req, res, next) {
       failure(message, 404, code, data);
     };
 
-    res.serverInternalError = (message = "Server Internal Error", code = "", data = {}) => {
+    res.serverInternalError = (
+      message = "Server Internal Error",
+      code = "",
+      data = {}
+    ) => {
       if (message == "Server Internal Error") {
-        message = res.__('SERVER_ERROR');
+        message = res.__("SERVER_ERROR");
         code = "SERVER_ERROR";
       }
 
@@ -50,7 +53,7 @@ function infBaseResponse(req, res, next) {
 
     res.unauthorized = (message = "Unauthorized", code = "", data = {}) => {
       if (message == "Unauthorized") {
-        message = res.__('UNAUTHORIZED');
+        message = res.__("UNAUTHORIZED");
         code = "UNAUTHORIZED";
       }
       failure(message, 401, code, data);
