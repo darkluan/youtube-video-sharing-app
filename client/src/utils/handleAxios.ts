@@ -6,8 +6,8 @@ axios.interceptors.request.use(
   (config) => {
     const auth = getLocalStorage('auth')
     config.baseURL = configs.apiUrl
-    if (auth.access_token && config.url?.includes(configs.apiUrl))
-      config.headers.Authorization = `Bearer ${auth.access_token}`
+    if (auth.access_token) config.headers.Authorization = `Bearer ${auth.access_token}`
+    if (config.url?.includes('googleapis.com')) config.headers.Authorization = null
     return config
   },
   (error) => {

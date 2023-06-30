@@ -8,7 +8,7 @@ function Index() {
   const { getVideoList } = useYoutubeApi()
   const [videos, setVideos] = useState<IMovie[]>([])
   const [offset, setOffset] = useState(1)
-  const [isShowMore, setIsShowMore] = useState(true)
+  const [isShowMore, setIsShowMore] = useState(false)
   const [total, setTotal] = useState(0)
   const limit = 10
 
@@ -19,7 +19,7 @@ function Index() {
         const videosData = await getVideoList(params)
         setVideos(videosData)
         setTotal(videosData.total)
-        if (videosData.total < limit + offset) setIsShowMore(false)
+        if (videosData.total > limit + offset) setIsShowMore(true)
       } catch (error) {
         setIsShowMore(false)
         errorNotify({ message: 'Get list video Error' })
@@ -31,7 +31,7 @@ function Index() {
 
   const handleLoadmore = async () => {
     try {
-      if (total <= limit + offset) setIsShowMore(false)
+      if (total >= limit + offset) setIsShowMore(true)
       setOffset(() => offset + 1)
       const params = { limit, offset: limit * offset }
       const videosData = await getVideoList(params)
@@ -48,7 +48,7 @@ function Index() {
           <VideoCard key={index} movie={movie} />
         ))}
         <div className='w-full text-center mt-8'>
-          <button onClick={handleLoadmore} className={`btn ${isShowMore ? '' : 'hidden'}`}>
+          <button onClick={handleLoadmore} className={`btn ${!isShowMore ? 'hidden' : ''}`}>
             Load more
           </button>
         </div>
