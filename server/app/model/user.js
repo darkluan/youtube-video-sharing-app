@@ -17,7 +17,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       password: {
-        type: DataTypes.TEXT("long"),
+        type: DataTypes.STRING(256),
+        allowNull: true,
+      },
+      salt: {
+        type: DataTypes.STRING(256),
         allowNull: true,
       },
     },

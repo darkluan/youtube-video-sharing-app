@@ -1,4 +1,5 @@
 const logger = require("app/lib/logger");
+const { verifyPassword } = require("app/lib/crypto");
 const config = require("app/config");
 const UserToken = require("app/model").user_tokens;
 const GrantType = require("app/model/value-object/token-grant-type");
@@ -9,7 +10,6 @@ const jwt = require("jsonwebtoken");
 const joi = require("joi");
 const { refreshToken, login } = require("./validator");
 const User = require("app/model").users;
-const crypto = require("crypto");
 
 module.exports = {
   token: async (req, res, next) => {
@@ -99,15 +99,19 @@ async function _loginWithPassword(req, res, next) {
     body: { grant_type, email, password },
   } = req;
 
-  const passwordHash = crypto.createHash("sha256", password).digest("hex");
   const user = await User.findOne({
     where: {
       email: email.toLowerCase(),
-      password: passwordHash,
     },
   });
 
-  if (!user)
+  if (!user) return res.badRequest(res.__("USER_NOT_FOUND"), "USER_NOT_FOUND");
+
+  console.log("user", user);
+
+  const checkPassword = verifyPassword(password, user.password, user.salt);
+
+  if (!checkPassword)
     return res.badRequest(
       res.__("EMAIL_OR_PASSWORD_IS_WRONG"),
       "EMAIL_OR_PASSWORD_IS_WRONG"

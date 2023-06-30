@@ -3,11 +3,11 @@ const configs = {
   googleAPIKey: import.meta.env.VITE_APP_GOOGLE_API_KEY
 }
 export const api = {
-  login: '/login',
-  register: '/register',
-  shared: '/shared',
-  userInfo: '/userInfo',
-  lis: '/userInfo'
+  token: '/authentication/token',
+  register: '/users/register',
+  shared: '/users/shared-video',
+  userInfo: '/users/info',
+  sharedVideos: '/shared/videos'
 }
 
 export default configs

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ReactNode, createContext, useEffect, useState, useContext } from 'react'
-import config from '~/configs'
+import { api } from '~/configs'
 import { getLocalStorage } from '~/utils/handleLocalStorage'
 import IUser from '~/interfaces/IUser'
 
@@ -16,7 +16,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
 
   // Get token at the first time page loaded
   useEffect(() => {
-    setToken(getLocalStorage('auth'))
+    setToken(getLocalStorage('auth')?.access_token)
   }, [])
 
   useEffect(() => {
@@ -26,12 +26,12 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   const handleFetchUserPayload = async () => {
     try {
       if (!token) return
-      const { data } = await axios.get(`${config.apiUrl}/userInfo`, {
+      const { data } = await axios.get(`${api.userInfo}`, {
         headers: {
           Authorization: `token ${token}`
         }
       })
-      data.status === 200 && setUser(data.data)
+      setUser(data.data)
     } catch (e) {
       console.error(e)
     }

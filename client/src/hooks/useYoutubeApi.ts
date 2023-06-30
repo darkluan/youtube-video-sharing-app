@@ -1,41 +1,78 @@
 /* eslint-disable prettier/prettier */
 import axios from 'axios'
-import configs from '~/configs'
+import configs, { api } from '~/configs'
 import { IMovie } from '~/interfaces/IMovies'
+import { errorNotify, successNotify, youtubeParserId } from '~/utils/helper'
 const googleApiUrl = 'https://www.googleapis.com/youtube/v3/videos'
+const youtubeUrl = 'https://www.youtube.com/embed'
 
 const useYoutubeApi = () => {
-  const getVideoList = async (videoIds: string) => {
+  const getVideoList = async ({ limit, offset }: { limit: number; offset: number }) => {
     try {
+      const {
+        data: {
+          data: { items, total }
+        }
+      } = await axios.get(api.sharedVideos, {
+        params: {
+          limit,
+          offset
+        }
+      })
+      const videoIds = items.map((item: any) => item.youtube_id)
+      const sharedByKeys = {} as any
+      items.map((item: any) => {
+        sharedByKeys[item.youtube_id] = { sharedBy: item.user.email, sharedId: item.id }
+      })
+
       const response = await axios.get(googleApiUrl, {
         params: {
           part: 'snippet',
-          id: videoIds,
+          id: videoIds.toString(),
           fields: 'items',
           key: configs.googleAPIKey
-        }
+        },
+        headers: { Authorization: null }
       })
 
       const videos = response.data.items
-      const fmVideos = formatVideos(videos)
+      const fmVideos = formatVideos(videos, sharedByKeys)
+      fmVideos.total = total
       return fmVideos
     } catch (error) {
-      console.error('Error fetching video list:', error)
-      throw error
+      errorNotify({ message: 'Error fetching video list' })
     }
   }
 
-  function formatVideos(videos: IMovie[]) {
-    return videos.map((item: any) => ({
-      id: item.id,
-      src: `https://www.youtube.com/embed/${item.id}`,
+  function formatVideos(videos: any, sharedByKeys: any) {
+    return videos.map((item: IMovie) => ({
+      id: sharedByKeys[item?.id]?.sharedId,
+      idVideo: item.id,
+      src: `${youtubeUrl}/${item.id}`,
       title: item?.snippet.title,
       description: item?.snippet.description,
-      shareBy: 'string'
+      sharedBy: sharedByKeys[item?.id]?.sharedBy
     }))
   }
 
-  return { getVideoList }
+  const submitShared = async (url: string) => {
+    try {
+      if (url === '' || !url.includes('youtube.com')) return
+      const youtubeId = youtubeParserId(url)
+      await axios.post(api.shared, {
+        youtube_id: youtubeId
+      })
+      successNotify({ message: 'Shared video success' })
+    } catch (error: any) {
+      if (error?.response) {
+        errorNotify({ message: error?.response.data.message })
+      } else {
+        errorNotify({ message: 'API Shared video Error' })
+      }
+    }
+  }
+
+  return { getVideoList, submitShared }
 }
 
 export default useYoutubeApi

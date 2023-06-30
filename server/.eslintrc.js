@@ -19,7 +19,7 @@ module.exports = {
     semi: [1, "always"],
     "keyword-spacing": [2, { before: true, after: true }],
     "space-infix-ops": 2,
-    "spaced-comment": [2, "always"],
+    "spaced-comment": [2, "alwayss"],
     "arrow-spacing": 2,
     "no-console": 0,
   },

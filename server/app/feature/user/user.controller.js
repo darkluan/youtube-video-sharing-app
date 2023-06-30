@@ -1,4 +1,5 @@
 const logger = require("app/lib/logger");
+const { createPasswordHash } = require("app/lib/crypto");
 const User = require("app/model/index").users;
 const UserShare = require("app/model/index").user_shareds;
 // const config = require("app/config");
@@ -34,10 +35,11 @@ module.exports = {
         return res.badRequest(res.__("USER_IS_EXIST"), "USER_IS_EXIST");
       }
 
-      const passwordHash = crypto.createHash("sha256", password).digest("hex");
+      const { salt, hash } = createPasswordHash(password);
       user = await User.create({
         email: email.toLowerCase(),
-        password: passwordHash,
+        password: hash,
+        salt,
       });
 
       return res.ok(true);
@@ -60,7 +62,6 @@ module.exports = {
 
       let checkYoutubeId = await UserShare.findOne({
         where: {
-          user_id: userId,
           youtube_id: req.body.youtube_id,
         },
       });

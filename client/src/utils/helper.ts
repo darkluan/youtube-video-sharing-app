@@ -38,9 +38,21 @@ export const youtubeParserId = (url: string) => {
   return video_id
 }
 
+export const truncate = (str: string | undefined, n = 350, frontChars = 350, backChars = 0, separator = '...') => {
+  if (!str) return ''
+
+  const sep = separator || '...'
+  const sepLen = sep.length
+  if (str.length < n - sepLen) {
+    return str
+  }
+  return str.substr(0, frontChars) + sep + str.substr(str.length - backChars)
+}
+
 export default {
   errorNotify,
   successNotify,
   warnNotify,
-  infoNotify
+  infoNotify,
+  truncate
 }

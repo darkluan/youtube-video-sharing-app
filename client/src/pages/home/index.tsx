@@ -6,30 +6,51 @@ import { errorNotify } from '~/utils/helper'
 
 function Index() {
   const { getVideoList } = useYoutubeApi()
-  const [videos, setVideos] = useState<IMovie[]>([])
-
-  const videoIds = 'Ks-_Mh1QhMc,c0KYU2j0TM4,eIho2S0ZahI,52Zs3Jo7cy0'
+  const [videos, setVideos] = useState<IMovie[] | undefined>([])
+  const [offset, setOffset] = useState(1)
+  const [isShowMore, setIsShowMore] = useState(true)
+  const [total, setTotal] = useState(0)
+  const limit = 1
 
   useEffect(() => {
     const fetchVideoList = async () => {
       try {
-        // const videoIds = await api.get('/list-shared')
-        const videosData = await getVideoList(videoIds)
+        const params = { limit, offset: 0 }
+        const videosData = await getVideoList(params)
         setVideos(videosData)
+        setTotal(videosData.total)
+        if (videosData.total < limit + offset) setIsShowMore(false)
       } catch (error) {
+        setIsShowMore(false)
         errorNotify({ message: 'Get list video Error' })
       }
     }
 
     fetchVideoList()
-  }, [videoIds])
+  }, [])
+
+  const handleLoadmore = async () => {
+    try {
+      if (total <= limit + offset) setIsShowMore(false)
+      setOffset(() => offset + 1)
+      const params = { limit, offset: limit * offset }
+      console.log(params)
+      const videosData = await getVideoList(params)
+      setVideos((pev) => [...pev, ...videosData])
+    } catch (error) {
+      errorNotify({ message: 'Get list video Error' })
+    }
+  }
 
   return (
     <>
       <div className='my-12'>
-        {videos.map((movie, index) => (
+        {videos?.map((movie, index) => (
           <VideoCard key={index} movie={movie} />
         ))}
+        <button onClick={handleLoadmore} className={`btn ${isShowMore ? '' : 'hidden'}`}>
+          Load more
+        </button>
       </div>
     </>
   )

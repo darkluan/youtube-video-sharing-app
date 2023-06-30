@@ -19,6 +19,11 @@ const Index = () => {
       return
     }
     await register(registerData)
+    setRegisterData({
+      email: '',
+      password: '',
+      repeatPassword: ''
+    })
   }
 
   const handleChangeInput = (e: ChangeEvent<{ name: string; value: string }>) => {
@@ -42,6 +47,7 @@ const Index = () => {
               className='input '
               placeholder='example@gmail.com'
               required
+              value={registerData.email}
             />
           </div>
           <div className='mb-6'>
@@ -55,6 +61,7 @@ const Index = () => {
               placeholder='password'
               className='input '
               required
+              value={registerData.password}
             />
           </div>
           <div className='mb-6'>
@@ -68,6 +75,7 @@ const Index = () => {
               placeholder='repeat password'
               className='input '
               required
+              value={registerData.repeatPassword}
             />
           </div>
           <div className='flex items-center justify-center'>

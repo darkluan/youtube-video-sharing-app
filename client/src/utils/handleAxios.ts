@@ -1,10 +1,11 @@
 import axios from 'axios'
-import configs from '~/configs'
+import configs, { api } from '~/configs'
 import { getLocalStorage, removeLocalStorage } from '~/utils/handleLocalStorage'
 
 axios.interceptors.request.use(
   (config) => {
     const auth = getLocalStorage('auth')
+    config.baseURL = configs.apiUrl
     if (auth.access_token) config.headers.Authorization = `Bearer ${auth.access_token}`
     return config
   },
@@ -20,15 +21,14 @@ axios.interceptors.response.use(
       const {
         response: { status }
       } = err
-      const getTokenUrl = '/authentication/token'
-      if (err.response.request.responseURL === `${configs.apiUrl}${getTokenUrl}` && status === 403) {
+      if (err.response.request.responseURL === `${configs.apiUrl}${api.token}` && status === 403) {
         removeLocalStorage('auth')
         window.location.reload()
       }
 
       if (status === 403) {
         return axios({
-          url: `${configs.apiUrl}${getTokenUrl}`,
+          url: `${configs.apiUrl}${api.token}`,
           method: 'post',
           data: {
             grant_type: 'refresh_token',
