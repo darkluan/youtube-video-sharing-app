@@ -1,14 +1,17 @@
 /* eslint-disable prettier/prettier */
 import axios from 'axios'
 import configs, { api } from '~/configs'
+import { useAppContext } from '~/context/AppContext'
 import { IMovie } from '~/interfaces/IMovies'
 import { errorNotify, successNotify, youtubeParserId } from '~/utils/helper'
 const googleApiUrl = 'https://www.googleapis.com/youtube/v3/videos'
 const youtubeUrl = 'https://www.youtube.com/embed'
 
 const useYoutubeApi = () => {
+  const { setIsLoading } = useAppContext()
   const getVideoList = async ({ limit, offset }: { limit: number; offset: number }) => {
     try {
+      setIsLoading(true)
       const {
         data: {
           data: { items, total }
@@ -38,8 +41,10 @@ const useYoutubeApi = () => {
       const videos = response.data.items
       const fmVideos = formatVideos(videos, sharedByKeys)
       fmVideos.total = total
+      setIsLoading(false)
       return fmVideos
     } catch (error) {
+      setIsLoading(false)
       errorNotify({ message: 'Error fetching video list' })
     }
   }
@@ -57,13 +62,16 @@ const useYoutubeApi = () => {
 
   const submitShared = async (url: string) => {
     try {
+      setIsLoading(true)
       if (url === '' || !url.includes('youtube.com')) return
       const youtubeId = youtubeParserId(url)
       await axios.post(api.shared, {
         youtube_id: youtubeId
       })
       successNotify({ message: 'Shared video success' })
+      setIsLoading(false)
     } catch (error: any) {
+      setIsLoading(false)
       if (error?.response) {
         errorNotify({ message: error?.response.data.message })
       } else {
