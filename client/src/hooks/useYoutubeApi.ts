@@ -40,7 +40,7 @@ const useYoutubeApi = () => {
     }
   }
 
-  function formatVideos(videos: any, sharedByKeys: any) {
+  function formatVideos(videos: [] | any, sharedByKeys: any) {
     return videos.map((item: IMovie) => ({
       id: sharedByKeys[item?.id]?.sharedId,
       idVideo: item.id,

@@ -22,7 +22,7 @@ const Index = () => {
     setLoginData((prev) => ({ ...prev, [name]: value }))
   }
 
-  if (user.email) {
+  if (user?.email) {
     return (
       <div className='flex justify-center items-center md:justify-end gap-2 my-5'>
         <div>

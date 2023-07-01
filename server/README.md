@@ -1,5 +1,3 @@
-# Code base
-
 ## Source Code Structure
 
 ```
@@ -54,9 +52,9 @@ npm instal
 node index.js
 ```
 
-- Default server will be started at http://127.0.0.1:3001
+- Default server will be started at http://localhost:3001
 
-### install postgres local with docker
+### install postgres local with docker desktop
 
 - run --name postgresql -e POSTGRES_DB=shared_video -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:latest
 

@@ -1,0 +1,12 @@
+{
+  "name": "youtube-video-sharing",
+  "version": "1.0.0",
+  "author": "luanpb",
+  "license": "MIT",
+  "scripts": {
+    "install-dependencies": " cd server && npm install && cd ../client && npm install",
+    "build": "cd server && npm run build && cd ../client && npm run build"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
