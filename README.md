@@ -19,9 +19,9 @@
 
 - Tool/os: linux wsl on window, visual studio code, tool pgadmin4, postman, docker desktop.
 
-- Tech client app: JS, node 16.x, react 18.x, typescript, vite, eslint, tailwind css, socket.io client.
+- Tech client app: JS, node 16.x, react 18.x, typescript, vite, eslint, tailwind css, socket.io client cypress test.
 
-- Tech server: JS node 16.x express, JWT,postgresql, ORM sequelize, eslint, socket.io.
+- Tech server: JS node 16.x express, JWT,postgresql, ORM sequelize, eslint, socket.io cypress test.
 
 ## 3.Installation & Configuration:🛠
 
@@ -94,7 +94,10 @@ module.exports = {
 
 ## 6.Docker Deployment:
 
-- Run docker compose `docker-compose up `
+- Create an empty `.env` file in `/server`, copy `/server/.env.docker` contents into it,
+- Run docker compose
+
+Run `docker-compose up`
 
 ## 7.Usage:
 

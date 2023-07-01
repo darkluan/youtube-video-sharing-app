@@ -20,9 +20,13 @@ services:
   db:
     image: postgres
     restart: always
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     environment:
       POSTGRES_DB: shared_video
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123456
+volumes:
+  postgresdata:
