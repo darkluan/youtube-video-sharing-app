@@ -54,9 +54,11 @@ node index.js
 
 - Default server will be started at http://localhost:3001
 
-### install postgres local with docker desktop
+### install postgres local with docker
 
-- run --name postgresql -e POSTGRES_DB=shared_video -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:latest
+- install docker: <a href="https://docs.docker.com/engine/install/">Link docs</a>
+
+- docker run --name postgresql -e POSTGRES_DB=shared_video -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:latest
 
 ### Testing
 
@@ -64,17 +66,13 @@ node index.js
 node run test
 ```
 
-# Migration
+### Migration
 
-When you want to change DB then you have to create migration file.
+- In `./server` When you want to change DB then you have to create migration file.
 
-## Migration config
+- Migration config: All configs related to migration in `.sequelizerc`
 
-All configs related to migration in `.sequelizerc`
-
-## Create Migration
-
-- In order to create migration then you run command below
+- Create Migration: In order to create migration then you run command below
 
 ```
 sequelize migration:create --name name-of-migration || npx sequelize-cli migration:create --name name-of-migration
