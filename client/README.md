@@ -27,5 +27,5 @@ npm run build
 ### Testing
 
 ```
-npm run test
+npm run cypress:o
 ```

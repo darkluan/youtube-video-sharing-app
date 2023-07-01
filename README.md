@@ -1,12 +1,14 @@
-## 1.Introduction
-
 <h1 align="center">Youtube Video Sharing App</h1>
 
 <h3 align="center">
   <a href="https://youtube-video-sharing-app.vercel.app/">Visit the live app</a> |
-  <a href="https://github.com/darkluan/youtube-video-sharing-app/tree/main/client">View client</a> |
-  <a href="https://github.com/darkluan/youtube-video-sharing-app/tree/main/server">View API</a>
+  <a href="https://shared-video-backend.onrender.com/">BE API</a> |
+  <a href="https://github.com/darkluan/youtube-video-sharing-app/tree/main/client">View github client</a> |
+  <a href="https://github.com/darkluan/youtube-video-sharing-app/tree/main/server">View github API</a>
+
 </h3>
+
+## 1.Introduction
 
 ##### Features
 
@@ -94,10 +96,8 @@ module.exports = {
 
 ## 6.Docker Deployment:
 
-- Create an empty `.env` file in `/server`, copy `/server/.env.docker` contents into it,
-- Run docker compose
-
-Run `docker-compose up`
+- Create an empty `.env` file in `/server`, copy `/server/.env.docker` contents into it.
+- Run docker compose `docker-compose up`
 
 ## 7.Usage:
 
