@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import axios from 'axios'
 import configs, { api } from '~/configs'
 import { useAppContext } from '~/context/AppContext'

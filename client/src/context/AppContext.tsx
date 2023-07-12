@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ReactNode, createContext, useEffect, useState, useContext } from 'react'
-import configs, { api } from '~/configs'
+import configs, { api } from '../configs'
 import { getLocalStorage } from '~/utils/handleLocalStorage'
 import IUser from '~/interfaces/IUser'
 import Loading from '~/components/Loading'
@@ -14,7 +14,7 @@ export type UserData = {
   setUser: (c: object) => void
   setIsLoading: (c: boolean) => void
 }
-const AppContext = createContext<UserData>({ user: {}, setUser: () => {}, setIsLoading: () => {} })
+export const AppContext = createContext<UserData>({ user: {}, setUser: () => Object, setIsLoading: () => Boolean })
 
 export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<IUser>({})

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { useAppContext } from '~/context/AppContext'
 import { removeLocalStorage, setLocalStorage } from '~/utils/handleLocalStorage'
 import axios from 'axios'
